@@ -1,85 +1,103 @@
-import { useEffect, useState, useRef } from "react";
-import handleViewport from 'react-in-viewport';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 
 import "./Product.css";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
-  const cardRef = useRef(null);
-  const wheelRef = useRef(null);
 
-  const [wheelPlaying, setWheelPlaying] = useState(true);
+  const [categories, setCategories] = useState([]);
+
+  const [products, setProducts] = useState([]);
+
+  const [filtered, setFiltered] = useState([]);
+
+  const [search, setSearch] = useState("");
+
+
 
 
   useEffect(() => {
     async function getProducts() {
       const data = await fetch(API_URL + "/api/products", { method: "GET" });
       const products = await data.json();
+      setCategories(Array.from(new Set(products.map(p => p.full_model.trim()))))
       setProducts(products);
     }
     getProducts();
   }, []);
 
   useEffect(() => {
-    if (wheelPlaying) {
-      wheelRef.current.style.animationPlayState = "paused";
-    }
-  }, [wheelPlaying])
+    const filtered = products.filter(product => {
+      return product.full_model === search;
+    });
+    setFiltered(filtered);
+  }, [products, search]);
 
 
-  const handleMouseOver = () => {
-    setTimeout(() => {
-      setWheelPlaying(false);
-    }, 2000)
-  };
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+  }
 
-  const handleMouseOut = () => {
-    setWheelPlaying(true);
-  };
+  setTimeout(() => {
+    console.log(categories, products);
+  }, 2000);
 
+  // const filterProducts = async (event) => {
+  //   const category = event.target.value;
+  //   if (category === "all") {
+  //     setProducts(allProducts);
+  //   } else {
+  //     const filteredProducts = products.filter(product => product.full_model.trim() === category);
+  //     setProducts(filteredProducts);
+  //   }
+  // };
 
   return (
     <>
       <div className="container"
       >
-        {products.map((product) => (
-          <div
-            className="card"
-            id="card"
-            ref={cardRef}
-            onMouseEnter={handleMouseOver}
-            onMouseOut={handleMouseOut}
-          >
-            <div className="imgBx" id="imbox">
-              <img
-                id="wheel"
-                className="wheel"
-                ref={wheelRef}
-                src={
-                  API_URL + "/" + product.image.split("/").slice(2).join("/")
-                }
-                alt={product.full_model}
-              />
-            </div>
-            <div className="contentBx">
-              <p className="color model">{product.full_name}</p>
-              <div className="size">
-                <span>3 oy</span>
-                <span>6 oy</span>
-                <span>9 oy</span>
+        {
+          products.map((product) => (
+            <div
+              className="card"
+              id="card"
+            >
+              <div className="imgBx" id="imbox">
+                <img
+                  id="wheel"
+                  className="wheel"
+                  src={
+                    API_URL + "/" + product.image.split("/").slice(2).join("/")
+                  }
+                  alt={product.full_model}
+                />
               </div>
-              <div className="color">
-                <span>{product.percent_3m}%</span>
-                <span>{product.percent_6m}%</span>
-                <span>{product.percent_9m}%</span>
+              <div className="contentBx" id="contentBx">
+                <p className="color model">{product.full_name}</p>
+                <div className="size" style={{ marginTop: '20px' }}>
+                  <span>3 oy</span>
+                  <span>6 oy</span>
+                  <span>9 oy</span>
+                </div>
+                <div className="color">
+                </div>
+                <p className="color price" style={{ marginTop: '30px' }}>         </p>
+                <Link to={`/wheel/${product._id}`}> Sotib olish </Link>
               </div>
-              <p className="color price">{product.price_usd}$</p>
-              <a href="#">Sotib olish</a>
+              <div className="navbar">
+                <select onChange={handleSearch} className="filter">
+                  <option value="all">Hamma shinalar</option>
+                  {categories.map((category) => (
+                    <option value={category}>{category}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+
       </div >
     </>
   );

@@ -11,24 +11,26 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #a3a3a3;
+  background: #8f8f8f;
   font-family: sans-serif;
 }
 
 .container {
   position: relative;
+  overflow: auto;
 }
 
 .container .card {
   position: relative;
-  width: 320px;
+  width: 350px;
   height: 450px;
   background: #ffffff;
   border-radius: 20px;
   overflow: hidden;
+  margin-bottom: 10px;
 }
 
-.container .card:before {
+.container .card::before {
   content: "";
   position: absolute;
   top: 0;
@@ -40,19 +42,19 @@ body {
   transition: 0.5s ease-in-out;
 }
 
-.container .card:hover:before {
+.container .card:before {
   clip-path: circle(300px at 50% -20%);
 }
 
 .container .card:after {
-  content: "Nike";
+  content: "Koleso.uz";
   position: absolute;
-  top: 30%;
-  left: -20%;
-  font-size: 12em;
+  top: 50%;
+  left: 0%;
+  font-size: 4em;
   font-weight: 800;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.04);
+  color: rgba(2, 1, 1, 0.04);
 }
 
 .container .card .imgBx {
@@ -66,13 +68,14 @@ body {
   transition: 2.5s;
 }
 
-.container .card:hover .imgBx {
+.container .card .imgBx {
   top: -25%;
-  /* right: 20%; */
-  /* transform: translateY(-25%); */
-
   transform: translateX(-100%);
-  /* bug  */
+}
+
+.imgBxHover {
+  top: -25%;
+  transform: translateX(-100%);
 }
 
 .container .card .imgBx img {
@@ -81,6 +84,7 @@ body {
   left: 20%;
   transform: translate(-50%, -50%) rotate(20deg);
   width: 200px;
+  height: 200px;
 }
 
 .container .card .contentBx {
@@ -93,8 +97,12 @@ body {
   z-index: 90;
 }
 
-.container .card:hover .contentBx {
-  height: 210px;
+.container .card .contentBx {
+  height: 190px;
+}
+
+.contextBxHover {
+  height: 190px;
 }
 
 .container .card .contentBx h2 {
@@ -115,13 +123,13 @@ body {
   visibility: hidden;
 }
 
-.container .card:hover .contentBx .size {
+.container .card .contentBx .size {
   opacity: 1;
   visibility: visible;
   transition-delay: 0.5s;
 }
 
-.container .card:hover .contentBx .color {
+.container .card .contentBx .color {
   opacity: 1;
   visibility: visible;
   transition-delay: 0.6s;
@@ -154,11 +162,6 @@ body {
   font-weight: 500;
 }
 
-.container .card .contentBx .size span:hover {
-  /* other bug */
-  background: #b90000;
-}
-
 .container .card .contentBx .color span {
   width: 30px;
   height: 20px;
@@ -186,7 +189,7 @@ body {
   font-size: 17px;
 }
 
-.container .card:hover .contentBx a {
+.container .card .contentBx a {
   opacity: 1;
   transform: translateY(0px);
   transition-delay: 0.7s;
@@ -206,7 +209,9 @@ body {
 }
 
 .wheel {
-  animation: wheelRoll 3s linear infinite;
+  transition-duration: 10s;
+  animation: wheelRoll 15s linear infinite;
+  animation-timing-function: ease-out;
 }
 
 @keyframes wheelRoll {
@@ -216,4 +221,27 @@ body {
   100% {
     transform: rotate(0deg);
   }
+}
+
+.navbar {
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  width: 38%;
+  background-color: #f8f9fa; /* Change this to match your site's color scheme */
+  padding: 10px 0;
+  z-index: 1000; /* This ensures the navbar appears above other content */
+}
+
+.navbar select {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f8f9fa; /* Change this to match your site's color scheme */
+  font-size: 16px;
+  color: #333; /* Change this to match your site's color scheme */
+}
+
+.navbar select:focus {
+  outline: none;
 }
