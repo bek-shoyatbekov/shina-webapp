@@ -227,15 +227,16 @@ body {
   position: fixed;
   bottom: 0;
   text-align: center;
-  width: 38%;
+  width: 100%;
   background-color: #f8f9fa; /* Change this to match your site's color scheme */
-  padding: 10px 0;
+  padding: 10px 0px;
   z-index: 1000; /* This ensures the navbar appears above other content */
 }
 
 .navbar select {
   padding: 10px;
   border: none;
+  width: 100%;
   border-radius: 5px;
   background-color: #f8f9fa; /* Change this to match your site's color scheme */
   font-size: 16px;
@@ -245,3 +246,18 @@ body {
 .navbar select:focus {
   outline: none;
 }
+
+.navbar select.category-filter {
+  width: 50%;
+}
+
+.navbar select.size-filter {
+  width: 50%;
+}
+
+/* Clear floats */
+/* .navbar:after {
+  content: "";
+  display: table;
+  clear: both;
+} */

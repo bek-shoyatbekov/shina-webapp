@@ -10,57 +10,39 @@ export default function Products() {
 
   const [categories, setCategories] = useState([]);
 
+  const [sizes, setSizes] = useState([]);
+
+
+  const [category, setCategory] = useState('all');
+
+  const [selectedSize, setSelectedSize] = useState('all');
+
   const [products, setProducts] = useState([]);
 
-  const [filtered, setFiltered] = useState([]);
-
-  const [search, setSearch] = useState("");
-
-
+  console.log(products)
 
 
   useEffect(() => {
     async function getProducts() {
       const data = await fetch(API_URL + "/api/products", { method: "GET" });
-      const products = await data.json();
-      setCategories(Array.from(new Set(products.map(p => p.full_model.trim()))))
-      setProducts(products);
+      const jsonData = await data.json();
+      setCategories(Array.from(new Set(jsonData.map(product => product.full_model.trim()))));
+      setSizes(Array.from(new Set(jsonData.map(product => product.full_name.split(" ")[product.full_name.split(" ").length - 1]))));
+      setProducts(jsonData);
     }
     getProducts();
   }, []);
 
-  useEffect(() => {
-    const filtered = products.filter(product => {
-      return product.full_model === search;
-    });
-    setFiltered(filtered);
-  }, [products, search]);
 
 
-  const handleSearch = (event) => {
-    setSearch(event.target.value);
-  }
-
-  setTimeout(() => {
-    console.log(categories, products);
-  }, 2000);
-
-  // const filterProducts = async (event) => {
-  //   const category = event.target.value;
-  //   if (category === "all") {
-  //     setProducts(allProducts);
-  //   } else {
-  //     const filteredProducts = products.filter(product => product.full_model.trim() === category);
-  //     setProducts(filteredProducts);
-  //   }
-  // };
+  const filteredProducts = category !== 'all' ? products.filter(product => product.full_model.trim() === category) : products;
 
   return (
     <>
       <div className="container"
       >
         {
-          products.map((product) => (
+          filteredProducts.map((product) => (
             <div
               className="card"
               id="card"
@@ -87,17 +69,28 @@ export default function Products() {
                 <p className="color price" style={{ marginTop: '30px' }}>         </p>
                 <Link to={`/wheel/${product._id}`}> Sotib olish </Link>
               </div>
-              <div className="navbar">
-                <select onChange={handleSearch} className="filter">
-                  <option value="all">Hamma shinalar</option>
-                  {categories.map((category) => (
-                    <option value={category}>{category}</option>
-                  ))}
-                </select>
-              </div>
             </div>
           ))}
-
+        <div className="navbar">
+          <select className="filter  category-filter" value={category} onChange={e => setCategory(e.target.value)}>
+            <option value="all">Shina turlari</option>
+            {categories.map((category) => (
+              <option key={category} value={category.trim()}>{category}</option>
+            ))}
+          </select>
+          <select
+            className="filter  size-filter"
+            value={selectedSize}
+            onChange={e => setSelectedSize(e.target.value)}
+          >
+            <option value="all">O'lcham tanlash</option>
+            {sizes.map(size => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+        </div>
       </div >
     </>
   );
