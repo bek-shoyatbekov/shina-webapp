@@ -1,4 +1,4 @@
-import Products from "../components/Product";
+import Products from "../components/Products";
 
 export function Home() {
   return (
@@ -9,7 +9,7 @@ export function Home() {
             textAlign: "center",
           }}
         >
-          Koleso shinalari
+          Koleso shinalar
         </h1>
       </div>
       <Products />
