@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import queryString from "query-string";
+import Swal from "sweetalert2";
 
 import "./Product.css";
 import axios from "axios";
@@ -15,23 +16,47 @@ export default function Product() {
   const userContact = localStorage.getItem("userContact");
 
   const [product, setProduct] = useState();
-  const [creditType, setCreditType] = useState("no");
+  const [creditType, setCreditType] = useState(1);
+
+  const [price, setPrice] = useState(1);
+
+  const [currency, setCurrency] = useState(0);
+
+  const [solidPrice, setSolidPrice] = useState(0);
+
+  const [activeBtn, setActiveBtn] = useState(null);
+
+  useEffect(() => {
+    async function getCurrency() {
+      try {
+        const jsonData = (await axios.get(`${API_URL}/api/currency`)).data;
+        setCurrency(jsonData.data.val);
+        setSolidPrice(parseFloat(product.price_usd) * parseFloat(currency));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getCurrency();
+  }, [currency, product]);
+
+  const submitOrder = async () => {
+    await orderProduct(productId);
+
+    Swal.fire({
+      title: "Success",
+      text: "Buyurtmangiz qabul qilindi!",
+      icon: "success",
+    });
+  };
 
   async function orderProduct(productId) {
     try {
-      // const response = await fetch(
-      //   `${API_URL}/api/order/${productId}?userContact=${userContact}&username=${username}&creditType=${creditType}`,
-      //   {
-      //     method: "GET",
-      //   }
-      // );
-
       const response = await axios.get(
         `${API_URL}/api/order/${productId}?userContact=${userContact}&username=${username}&creditType=${creditType}`
       );
 
       if (response.ok) {
-        alert(`Buyutmangiz qabul qilindi!`);
+        return true;
       }
     } catch (err) {
       console.error(err);
@@ -40,13 +65,12 @@ export default function Product() {
 
   useEffect(() => {
     async function getProduct() {
-      // const data = await fetch(API_URL + "/api/product/" + productId, {
-      //   method: "GET",
-      // });
       const jsonData = (await axios.get(`${API_URL}/api/product/${productId}`))
         .data;
       setProduct(jsonData);
+      setPrice(parseFloat(jsonData.price_usd.trim()).toFixed(2));
     }
+
     getProduct();
   }, [productId]);
 
@@ -58,7 +82,12 @@ export default function Product() {
             <img
               id="wheel"
               className="wheel"
-              src={API_URL + "/" + product.image.split("/").slice(2).join("/")}
+              src={
+                product.image.split("/").slice(3).join("").startsWith("BQ") ||
+                product.image.split("/").slice(3).join("").startsWith("AgA")
+                  ? API_URL + "/" + product.image.split("/").slice(2).join("/")
+                  : API_URL + "/images/" + product.image
+              }
               alt={product.full_model}
             />
           </div>
@@ -66,9 +95,8 @@ export default function Product() {
             <p className="color model">{product.full_name}</p>
             <ul className="details">
               <li className="detail_item">
-                Narxi :{product.price_usd.trim()} $
+                Narxi : {solidPrice.toFixed(2)} so'm
               </li>
-              <li className="detail_item">Naqtga :{product.percent_cash} %</li>
               <li className="detail_item">O'lchami :{product.size}</li>
               <li className="detail_item">Uzunligi :{product.width}</li>
               <li className="detail_item">Diametr :{product.diameter}</li>
@@ -76,30 +104,62 @@ export default function Product() {
             <div className="size" style={{ marginTop: "10px" }}>
               <div className="size-buttons">
                 <button
-                  className="size-btn"
+                  className={activeBtn === "1" ? "size-btn active" : "size-btn"}
+                  name="size"
+                  value="1"
+                  onClick={(e) => {
+                    setActiveBtn(e.target.value);
+                    let oldPrice = parseFloat(price);
+                    let newPrice = oldPrice * parseFloat(currency);
+                    setSolidPrice(newPrice);
+                    setCreditType(e.target.value);
+                  }}
+                >
+                  Naqtga
+                </button>
+                <button
+                  className={activeBtn === "3" ? "size-btn active" : "size-btn"}
                   name="size"
                   value="3"
                   onClick={(e) => {
+                    setActiveBtn(e.target.value);
+                    let percent = parseFloat(product.percent_3m);
+                    let oldPrice = parseFloat(price);
+                    let newPrice = oldPrice + (percent * oldPrice) / 100;
+                    newPrice = (newPrice * parseFloat(currency)) / 3;
+                    setSolidPrice(newPrice);
                     setCreditType(e.target.value);
                   }}
                 >
                   3 oy
                 </button>
                 <button
-                  className="size-btn"
+                  className={activeBtn === "6" ? "size-btn active" : "size-btn"}
                   name="size"
                   value="6"
                   onClick={(e) => {
+                    setActiveBtn(e.target.value);
+                    let percent = parseFloat(product.percent_6m);
+                    let oldPrice = parseFloat(price);
+                    let newPrice = oldPrice + (percent * oldPrice) / 100;
+                    newPrice = (newPrice * parseFloat(currency)) / 3;
+                    setSolidPrice(newPrice);
                     setCreditType(e.target.value);
                   }}
                 >
                   6 oy
                 </button>
                 <button
-                  className="size-btn"
+                  className={activeBtn === "9" ? "size-btn active" : "size-btn"}
                   name="size"
                   value="9"
                   onClick={(e) => {
+                    setActiveBtn(e.target.value);
+                    let percent = parseFloat(product.percent_9m);
+                    let oldPrice = parseFloat(price);
+                    let newPrice = oldPrice + (percent * oldPrice) / 100;
+                    newPrice = (newPrice * parseFloat(currency)) / 3;
+                    setSolidPrice(newPrice);
                     setCreditType(e.target.value);
                   }}
                 >
@@ -129,9 +189,7 @@ export default function Product() {
           <button
             className="orderBtn"
             style={{ marginTop: "1px" }}
-            onClick={() => {
-              orderProduct(product._id);
-            }}
+            onClick={submitOrder}
           >
             Buyurtma berish
           </button>

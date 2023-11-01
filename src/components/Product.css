@@ -100,11 +100,12 @@ a:hover {
 }
 
 .size-btn:hover {
-  background: #ddd;
+  background: #2fa1fe;
 }
 
-.size-btn:focus {
-  outline: none;
+
+
+.active {
   background: #0079e1;
   color: #fff;
 }
