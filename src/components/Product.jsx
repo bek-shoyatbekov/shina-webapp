@@ -12,8 +12,8 @@ export default function Product() {
   const location = useLocation();
   const { productId } = queryString.parse(location.search);
 
-  const username = localStorage.getItem("username");
-  const userContact = localStorage.getItem("userContact");
+  let username = localStorage.getItem("username");
+  let userContact = localStorage.getItem("userContact");
 
   const [product, setProduct] = useState();
   const [creditType, setCreditType] = useState(1);
@@ -39,14 +39,41 @@ export default function Product() {
     getCurrency();
   }, [currency, product]);
 
-  const submitOrder = async () => {
-    await orderProduct(productId);
-
-    Swal.fire({
-      title: "Success",
-      text: "Buyurtmangiz qabul qilindi!",
-      icon: "success",
+  const getUserContact = async () => {
+    const result = await Swal.fire({
+      title: "Ismingizni kiriting ",
+      input: "text",
     });
+
+    const username = result.value;
+
+    const phoneResult = await Swal.fire({
+      title: "Telefon raqamingiz",
+      input: "tel",
+    });
+
+    const phoneNumber = phoneResult.value;
+
+    return {
+      username,
+      phoneNumber,
+    };
+  };
+
+  const submitOrder = async () => {
+    if (username == "undefined" || userContact == "undefined") {
+      const userInfo = await getUserContact();
+      username = userInfo.username;
+      userContact = userInfo.phoneNumber;
+    }
+    if (username && userContact) {
+      await orderProduct(productId);
+      Swal.fire({
+        title: "Success",
+        text: "Buyurtmangiz qabul qilindi!",
+        icon: "success",
+      });
+    }
   };
 
   async function orderProduct(productId) {
