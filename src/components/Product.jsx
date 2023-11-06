@@ -41,7 +41,7 @@ export default function Product() {
 
   const getUserContact = async () => {
     const result = await Swal.fire({
-      title: "Ismingizni kiriting ",
+      title: "telegram (username)ni kiriting",
       input: "text",
     });
 
