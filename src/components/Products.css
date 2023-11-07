@@ -204,18 +204,6 @@ body {
   font-weight: 600;
 }
 
-/* .wheel {
-  animation: wheelRoll 10s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-}
-
-@keyframes wheelRoll {
-  0% {
-    transform: rotate(360deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-} */
 
 @keyframes spin {
   from {
