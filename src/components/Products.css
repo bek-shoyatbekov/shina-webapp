@@ -74,11 +74,6 @@ body {
   transform: translateX(-100%);
 }
 
-.imgBxHover {
-  top: -25%;
-  transform: translateX(-100%);
-}
-
 .container .card .imgBx img {
   position: absolute;
   top: 27%;
@@ -209,10 +204,8 @@ body {
   font-weight: 600;
 }
 
-.wheel {
-  transition-duration: 10s;
-  animation: wheelRoll 15s linear infinite;
-  animation-timing-function: ease-out;
+/* .wheel {
+  animation: wheelRoll 10s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
 }
 
 @keyframes wheelRoll {
@@ -222,6 +215,19 @@ body {
   100% {
     transform: rotate(0deg);
   }
+} */
+
+@keyframes spin {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.wheel {
+  animation: spin 50s ease-in-out infinite;
 }
 
 .navbar {
@@ -261,4 +267,3 @@ body {
   font-size: 1.2em;
   color: #dd2323;
 }
-
