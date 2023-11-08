@@ -16,7 +16,7 @@ export default function Product() {
   let userContact = localStorage.getItem("userContact");
 
   const [product, setProduct] = useState();
-  
+
   const [creditType, setCreditType] = useState(1);
 
   const [price, setPrice] = useState(1);
@@ -62,7 +62,7 @@ export default function Product() {
   };
 
   const submitOrder = async () => {
-    if (username == "undefined" || userContact == "undefined") {
+    if (username === "undefined" || userContact === "undefined") {
       const userInfo = await getUserContact();
       username = userInfo.username;
       userContact = userInfo.phoneNumber;
