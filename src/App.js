@@ -18,7 +18,7 @@ function App() {
 
   return (
     <>
-      <TelegramWebApp validateHash={true}>
+      <TelegramWebApp>
         <BrowserRouter>
           <Routes>
             <Route path={'/'} element={<Products />} />
