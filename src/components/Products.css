@@ -3,7 +3,6 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -11,7 +10,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #8f8f8f;
+  background: #696161;
   font-family: sans-serif;
 }
 
@@ -48,14 +47,14 @@ body {
 }
 
 .container .card:after {
-  content: "Koleso.uz";
+  content: "";
   position: absolute;
   top: 50%;
   left: 0%;
   font-size: 4em;
   font-weight: 800;
   font-style: italic;
-  color: rgba(2, 1, 1, 0.04);
+  color: #8a7b7b;
 }
 
 .container .card .imgBx {
@@ -97,10 +96,6 @@ body {
   height: 190px;
 }
 
-.contextBxHover {
-  height: 190px;
-}
-
 .container .card .contentBx h2 {
   position: relative;
   font-weight: 600;
@@ -133,7 +128,7 @@ body {
 
 .container .card .contentBx .size h3,
 .container .card .contentBx .color h3 {
-  color: white;
+  color: rgb(243, 243, 243);
   font-weight: 300;
   font-size: 14px;
   text-transform: uppercase;
@@ -173,7 +168,7 @@ body {
 .container .card .contentBx a {
   display: inline-block;
   padding: 10px 20px;
-  color: #fff;
+  color: #ffff;
   background-color: #1bbfe9;
   border-radius: 4px;
   margin-top: 10px;
@@ -203,7 +198,6 @@ body {
   font-size: 25px;
   font-weight: 600;
 }
-
 
 @keyframes spin {
   from {

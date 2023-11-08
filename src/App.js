@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Home } from './pages/Home';
 import Product from './components/Product';
 import { useEffect } from 'react';
+import Products from './components/Products';
 
 
 const tele = window.Telegram.WebApp;
@@ -17,7 +17,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path={'/'} element={<Home />} />
+          <Route path={'/'} element={<Products />} />
           <Route path={'/wheel'} element={<Product />} />
         </Routes>
       </BrowserRouter>

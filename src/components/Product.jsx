@@ -16,6 +16,7 @@ export default function Product() {
   let userContact = localStorage.getItem("userContact");
 
   const [product, setProduct] = useState();
+  
   const [creditType, setCreditType] = useState(1);
 
   const [price, setPrice] = useState(1);
