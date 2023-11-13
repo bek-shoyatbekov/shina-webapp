@@ -28,6 +28,17 @@ export default function Product() {
   const [activeBtn, setActiveBtn] = useState(null);
 
   useEffect(() => {
+    async function getProduct() {
+      const jsonData = (await axios.get(`${API_URL}/api/product/${productId}`))
+        .data;
+      setProduct(jsonData);
+      setPrice(parseFloat(jsonData.price_usd.trim()).toFixed(2));
+    }
+
+    getProduct();
+  }, [productId]);
+
+  useEffect(() => {
     async function getCurrency() {
       try {
         const jsonData = (await axios.get(`${API_URL}/api/currency`)).data;
@@ -39,6 +50,7 @@ export default function Product() {
     }
     getCurrency();
   }, [currency, product]);
+  
 
   const getUserContact = async () => {
     const result = await Swal.fire({
@@ -90,17 +102,6 @@ export default function Product() {
       console.error(err);
     }
   }
-
-  useEffect(() => {
-    async function getProduct() {
-      const jsonData = (await axios.get(`${API_URL}/api/product/${productId}`))
-        .data;
-      setProduct(jsonData);
-      setPrice(parseFloat(jsonData.price_usd.trim()).toFixed(2));
-    }
-
-    getProduct();
-  }, [productId]);
 
   function RenderProduct({ product }) {
     if (product) {

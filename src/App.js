@@ -3,7 +3,6 @@ import Product from './components/Product';
 import { useEffect } from 'react';
 import Products from './components/Products';
 import eruda from "eruda";
-import { TelegramWebApp } from 'react-telegram-webapp';
 
 
 const tele = window.Telegram.WebApp;
@@ -18,14 +17,12 @@ function App() {
 
   return (
     <>
-      <TelegramWebApp>
-        <BrowserRouter>
-          <Routes>
-            <Route path={'/'} element={<Products />} />
-            <Route path={'/wheel'} element={<Product />} />
-          </Routes>
-        </BrowserRouter>
-      </TelegramWebApp>
+      <BrowserRouter>
+        <Routes>
+          <Route path={'/'} element={<Products />} />
+          <Route path={'/wheel'} element={<Product />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
