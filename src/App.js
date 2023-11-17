@@ -12,6 +12,7 @@ function App() {
 
   useEffect(() => {
     tele.ready();
+    tele.expand();
     eruda.init();
   })
 
