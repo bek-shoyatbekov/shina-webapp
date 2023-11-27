@@ -4,7 +4,7 @@
 
 
 
-## Shina web [kolesso.uz](https://kolesso.uz)
+## [kolesso.uz](https://kolesso.uz)
 
 
 ## [Shina-webapp](https://t.me/kolesso_uz_bot)
