@@ -1,5 +1,5 @@
 # Now marketplace in your telegram
-> [!IMPORTANT]
+> [!WARNING]
 > You don't have to open up browser , login , sign up etc. 
 
 
