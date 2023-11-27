@@ -1,6 +1,7 @@
 # Now marketplace in your telegram
-> [!WARNING]
+> [!TIP]
 > You don't have to open up browser , login , sign up etc. 
+
 
 
 ## Shina web [kolesso.uz](https://kolesso.uz)
